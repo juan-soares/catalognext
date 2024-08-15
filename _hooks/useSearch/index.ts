@@ -5,13 +5,14 @@ const handleFetchError = (error: Error) => {
   console.error(`Ops! Ocorreu um erro: ${error.message}`);
 };
 
-const fetchData = async <T>(url: string): Promise<T | undefined> => {
+const fetchData = async <T>(url: string): Promise<T | []> => {
   try {
     const res = await fetch("" + url);
     if (!res.ok) throw new Error(`Falha ao consultar ${url}.`);
     return res.json();
   } catch (error) {
     handleFetchError(error as Error);
+    return [];
   }
 };
 
@@ -28,15 +29,12 @@ const fetchCollections = async (): Promise<ISearchResult[]> => {
   );
   const collectionsResults = await Promise.all(collectionsPromises);
 
-  return collectionsResults
-    .flat()
-    .filter((result): result is ISearchResult => result !== null);
+  return collectionsResults.flat();
 };
 
 const filterData = (results: ISearchResult[], queryValue: string) => {
-  return results.filter(
-    ({ title, translatedTitle }) =>
-      title === queryValue || translatedTitle === queryValue
+  return results.filter(({ title, translatedTitle }) =>
+    [title, translatedTitle].some((value) => value === queryValue)
   );
 };
 
