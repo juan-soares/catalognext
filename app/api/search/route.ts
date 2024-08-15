@@ -1,14 +1,18 @@
-import { connetDB } from "@/_lib";
-import { NextResponse } from "next/server";
+import { connectDB } from "@/_lib";
 import Category from "../models/Category";
 
 export async function GET() {
-  await connetDB();
+  await connectDB();
 
   try {
     const categories = await Category.find({});
-    return NextResponse.json(categories);
+
+    console.log(categories);
+
+    return Response.json(categories);
   } catch (error) {
-    return NextResponse.json("Houve um erro: " + error);
+    return Response.json({
+      error: "Erro ao consultar:" + error,
+    });
   }
 }

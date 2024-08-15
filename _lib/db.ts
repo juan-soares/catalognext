@@ -1,18 +1,21 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
-const ATLASDB_URL = process.env.DB_ATLAS_URL;
+const uri = process.env.DB_ATLAS_URL;
 
-export async function connetDB() {
-  if (!ATLASDB_URL) {
-    throw new Error(
-      "Define the MONGODB_URI environment variable inside .env.local"
-    );
+let isConnected = false;
+
+export async function connectDB() {
+  if (isConnected) {
+    console.log("Conexao já realizada.");
+    return;
   }
 
   try {
-    await mongoose.connect(ATLASDB_URL);
-    console.log("AtlasDB conectado com sucesso!");
+    await mongoose.connect(uri);
+    isConnected = true;
+    console.log("Conexão com o MongoDB Atlas estabelecida com sucesso!");
   } catch (error) {
-    console.log(error);
+    console.error("Erro ao conectar com o MongoDB Atlas:", error);
+    throw error;
   }
 }

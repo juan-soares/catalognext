@@ -1,9 +1,9 @@
 import mongoose, { Schema } from "mongoose";
 
 const categorySchema = new Schema({
-  collection: { type: String, required: true },
+  collectionRef: { type: String, required: true },
 });
 
-const Category = mongoose.model("Categories", categorySchema);
+const Category = mongoose.model("Category", categorySchema);
 
 export default Category;
