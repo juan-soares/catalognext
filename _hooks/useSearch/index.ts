@@ -14,8 +14,12 @@ export const useSearch = () => {
     if (!queryValue) return;
 
     const updateResults = async () => {
-      const newResultsFromAPI = await filteredResults(queryValue);
-      setResultsList(newResultsFromAPI);
+      try {
+        const newResults = await filteredResults(queryValue);
+        setResultsList(newResults);
+      } catch (error) {
+        console.error("Erro ao atualizar a lista de resultados:", error);
+      }
     };
 
     updateResults();
