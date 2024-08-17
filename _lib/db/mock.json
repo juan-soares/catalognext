@@ -1,1 +1,12 @@
-{ "categories": [{ "id": "1", "collection": "animes" }] }
+{
+  "users": [
+    {
+      "id": "1",
+      "nickname": "adm",
+      "avatar": "image",
+      "password": "123",
+      "email": "a@a.com"
+    }
+  ],
+  "categories": [{ "id": "1", "collection": "animes" }]
+}

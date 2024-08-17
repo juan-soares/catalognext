@@ -1,21 +1,11 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useAuth } from "@/_hooks/useAuth";
+import Image from "next/image";
 
 export function Loginbar() {
-  const [user, setUser] = useState({ nickname: "" });
-  const router = useRouter();
-
-  const logOut = () => {
-    const confirm = window.confirm("Deseja realmente sair?");
-
-    if (!confirm) return;
-
-    setUser(null);
-    router.push("/");
-  };
+  const { user, logOut } = useAuth();
 
   if (!user) {
     return (
@@ -24,8 +14,16 @@ export function Loginbar() {
       </div>
     );
   } else {
+    const { avatar, nickname } = user;
     return (
       <div>
+        <Image
+          width={30}
+          height={30}
+          src={avatar}
+          alt={`Avatar representando o usuário ${nickname}`}
+        />
+        <span>{nickname}</span>
         <button onClick={logOut}>Sair</button>
       </div>
     );
