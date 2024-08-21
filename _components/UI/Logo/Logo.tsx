@@ -1,14 +1,14 @@
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Logo() {
   return (
     <Link href="/">
       <Image
-        width={50}
-        height={50}
         src="/assets/img/logo.png"
-        alt="Logotipo do site Catalog."
+        alt="Logotipo do site."
+        width={30}
+        height={30}
       />
     </Link>
   );

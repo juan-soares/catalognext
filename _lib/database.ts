@@ -1,6 +1,6 @@
 import fs from "fs/promises";
 import path from "path";
-import { IDatabase } from "@/_interfaces/IDatabase";
+import { IDatabase } from "@/_interfaces";
 
 const filePath = path.resolve("./_lib/db.json");
 
@@ -8,6 +8,7 @@ export const accessDatabase = async (): Promise<IDatabase> => {
   try {
     const jsonData = await fs.readFile(filePath, "utf8");
     console.log("Leitura do Banco de Dados com sucesso!");
+    console.log(jsonData);
     return JSON.parse(jsonData);
   } catch (error) {
     console.error("Ops! Erro no arquivo database.ts: ", error);

@@ -4,7 +4,7 @@ export function middleware(req: NextRequest) {
   const method = req.method;
 
   const allowedRoutes: { [key: string]: string[] } = {
-    "/api/user": ["POST"],
+    "/api/user": ["GET", "POST"],
   };
 
   const url = new URL(req.url);

@@ -1,10 +1,10 @@
-import { ICredentials, IUserLogged } from "@/_interfaces";
+import { ICredentials, IUserSession } from "@/_interfaces";
 import { accessDatabase } from "@/_lib/database";
 import { generateToken } from "@/_lib/jwt";
 
 export async function getUser(
   credentials: ICredentials
-): Promise<IUserLogged | null> {
+): Promise<IUserSession | null> {
   if (!credentials) {
     console.error("Ops! Credenciais não fornecidas.");
     return null;
@@ -23,7 +23,6 @@ export async function getUser(
       const token = generateToken(user);
       return {
         token,
-        id: user.id,
         nickname: user.nickname,
         avatar: user.avatar,
       };
