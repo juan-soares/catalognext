@@ -1,21 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchUsersAPI } from "@/_services";
+import { getUser } from "@/_services/user";
 
 export async function POST(req: NextRequest) {
+  const reqCredentials = await req.json();
+
   try {
-    const { email, password } = await req.json();
-    if (!email || !password) throw new Error("Usuário e senha não fornecidos.");
-
-    const usersList = await fetchUsersAPI();
-
-    if (!usersList) {
-      return null;
-    } else {
-      const { avatar, nickname } = usersList[0];
-      return NextResponse.json({ avatar: avatar, nickname: nickname });
-    }
+    const user = await getUser(reqCredentials);
+    return NextResponse.json(user);
   } catch (error) {
-    console.error("Ops! Erro na operação GET no endpoint /users: ", error);
+    console.error("Ops! Erro no arquivo route.ts:" + error);
     return null;
   }
 }
