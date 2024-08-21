@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { IApiResponse, ICredentials } from "@/_interfaces";
+import { ICredentials } from "@/_interfaces";
 import { getUser } from "@/_services/user";
 
 export async function POST(req: NextRequest) {
