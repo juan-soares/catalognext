@@ -1,3 +1,4 @@
+export * from "./IApiResponse";
 export * from "./ICategory";
 export * from "./ICollectionData";
 export * from "./ICredentials";
