@@ -1,8 +1,5 @@
-"use client";
-
-import { Header } from "@/_components";
-import { AuthProvider } from "@/_contexts";
 import type { Metadata } from "next";
+import { Header } from "@/_components";
 
 export default function RootLayout({
   children,
@@ -10,13 +7,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <AuthProvider>
-      <html lang="en">
-        <body>
-          <Header />
-          {children}
-        </body>
-      </html>
-    </AuthProvider>
+    <html lang="en">
+      <body>
+        <Header />
+        {children}
+      </body>
+    </html>
   );
 }

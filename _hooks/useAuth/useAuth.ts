@@ -1,26 +1,39 @@
-import { useAuthContext } from "@/_contexts";
-import { fetchUser } from "@/_components/ultils";
-import { useNavigation } from "../useNavigation";
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import jwt from "jsonwebtoken";
+import { fetchLogin } from "@/_utils";
+import { IUserSession } from "@/_interfaces";
+
+const SECRET_KEY = process.env.JWT_SECRET as string;
 
 export const useAuth = () => {
-  const { user, setUser, credentials, setCredentials } = useAuthContext();
+  const validateUserSession = (): IUserSession | null => {
+    const cookieStore = cookies();
+    const token = cookieStore.get("token")?.value;
 
-  const { backToHomePage } = useNavigation();
-
-  const handleCredentials = (id: string, value: string) => {
-    setCredentials((prevState) => ({ ...prevState, [id]: value }));
+    if (!token) {
+      console.log("Não há token.");
+      return null;
+    } else {
+      return jwt.verify(token, SECRET_KEY) as IUserSession;
+    }
   };
 
-  const logIn = async (form: React.FormEvent<HTMLFormElement>) => {
-    form.preventDefault();
+  const logIn = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    const credentials = {
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    };
 
     try {
-      const user = await fetchUser(credentials);
+      const userSession = await fetchLogin(credentials);
 
-      if (user) {
-        setUser(user);
-        window.alert("Olá, " + user.nickname);
-        backToHomePage();
+      if (userSession) {
+        window.alert("Olá, " + userSession.nickname);
+        redirect("/");
       } else {
         window.alert("Usuário ou senha incorretos.");
       }
@@ -35,9 +48,8 @@ export const useAuth = () => {
   const logOut = () => {
     const confirm = window.confirm("Deseja realmente sair?");
     if (!confirm) return;
-    setUser(null);
-    backToHomePage();
+    redirect("/");
   };
 
-  return { user, credentials, handleCredentials, logIn, logOut };
+  return { logIn, logOut, validateUserSession };
 };

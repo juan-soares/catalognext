@@ -9,9 +9,11 @@ export interface IUserSession {
   avatar: string;
 }
 
+export interface IUserInfo {
+  nickname: string;
+  avatar: string;
+}
+
 export interface IAuthContext {
   user: IUserSession | null;
-  setUser: React.Dispatch<React.SetStateAction<IUserSession | null>>;
-  credentials: ICredentials;
-  setCredentials: React.Dispatch<React.SetStateAction<ICredentials>>;
 }

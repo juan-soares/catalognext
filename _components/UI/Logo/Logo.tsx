@@ -7,8 +7,8 @@ export function Logo() {
       <Image
         src="/assets/img/logo.png"
         alt="Logotipo do site."
-        width={30}
-        height={30}
+        width={60}
+        height={60}
       />
     </Link>
   );

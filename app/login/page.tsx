@@ -1,37 +1,16 @@
-"use client";
-
 import { useAuth } from "@/_hooks/useAuth";
-import { useNavigation } from "@/_hooks/useNavigation";
 
 export default function Login() {
-  const { credentials, handleCredentials, logIn } = useAuth();
-  const { backToHomePage } = useNavigation();
+  const { logIn } = useAuth();
 
   return (
     <div>
-      <form onSubmit={(e) => logIn(e)}>
+      <form onSubmit={logIn}>
         <label htmlFor="email">Usuário: </label>
-        <input
-          type="email"
-          id="email"
-          placeholder="E-mail"
-          value={credentials.email}
-          onChange={({ target: { id, value } }) => handleCredentials(id, value)}
-          required
-        />
+        <input type="email" name="email" placeholder="E-mail" required />
         <label htmlFor="password">Senha: </label>
-        <input
-          type="password"
-          id="password"
-          placeholder="***"
-          value={credentials.password}
-          onChange={({ target: { id, value } }) => handleCredentials(id, value)}
-          required
-        />
+        <input type="password" name="password" placeholder="***" required />
         <button>Enviar</button>
-        <button type="button" onClick={backToHomePage}>
-          Voltar
-        </button>
       </form>
     </div>
   );

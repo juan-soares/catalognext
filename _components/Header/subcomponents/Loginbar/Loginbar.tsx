@@ -1,10 +1,10 @@
-"use client";
-
 import Link from "next/link";
 import { useAuth } from "@/_hooks/useAuth";
 
-export default function Loginbar() {
-  const { user, logOut } = useAuth();
+export default async function Loginbar() {
+  const { validateUserSession, logOut } = useAuth();
+
+  const user = validateUserSession();
 
   if (!user) {
     return (

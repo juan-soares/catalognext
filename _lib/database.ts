@@ -6,9 +6,12 @@ const filePath = path.resolve(process.cwd(), "_lib", "db.json");
 
 export const accessDatabase = async (): Promise<IDatabase> => {
   try {
-    const jsonData = await fs.readFile(filePath, "utf8");
+    const stringDatabase = await fs.readFile(filePath, "utf8");
+    const jsonDatabase: IDatabase = JSON.parse(stringDatabase);
+
     console.log("Leitura do Banco de Dados com sucesso!");
-    return JSON.parse(jsonData) as IDatabase;
+
+    return jsonDatabase;
   } catch (error) {
     console.error("Ops! Erro no arquivo database.ts: ", error);
     throw new Error("Erro no arquivo database.ts");
