@@ -6,12 +6,13 @@ export async function fetchUser(
   try {
     const res = await fetch("/api/user", {
       method: "POST",
-      headers: { "content-type": "application-json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(credentials),
     });
+
     const apiRes = await res.json();
 
-    if (apiRes.error) throw new Error(apiRes.error);
+    if (!res.ok || apiRes.error) throw new Error(apiRes.error);
 
     return apiRes.data;
   } catch (error) {

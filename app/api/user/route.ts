@@ -23,7 +23,7 @@ export async function POST(req: NextRequest) {
       );
     }
   } catch (error) {
-    console.error("Ops! Erro no arquivo route.ts:", error);
+    console.error("Ops! Erro na rota 'post/user': ", error);
     return NextResponse.json(
       { data: null, error: "Erro interno do servidor." },
       { status: 500 }

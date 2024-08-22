@@ -1,17 +1,11 @@
-import { useEffect, useState } from "react";
-import { ICredentials, IUserSession } from "@/_interfaces";
-import { useNavigation } from "../useNavigation";
+import { useAuthContext } from "@/_contexts";
 import { fetchUser } from "@/_components/ultils";
+import { useNavigation } from "../useNavigation";
 
 export const useAuth = () => {
-  const [user, setUser] = useState<IUserSession | null>(null);
-  const [credentials, setCredentials] = useState<ICredentials>({
-    email: "",
-    password: "",
-  });
-  const { backToHomePage } = useNavigation();
+  const { user, setUser, credentials, setCredentials } = useAuthContext();
 
-  useEffect(() => {}, []);
+  const { backToHomePage } = useNavigation();
 
   const handleCredentials = (id: string, value: string) => {
     setCredentials((prevState) => ({ ...prevState, [id]: value }));
@@ -32,8 +26,18 @@ export const useAuth = () => {
       }
     } catch (error) {
       console.error("Não foi possível completar a operação: " + error);
+      window.alert(
+        "Ocorreu um erro ao tentar fazer login. Tente novamente mais tarde."
+      );
     }
   };
 
-  return { user, credentials, handleCredentials, logIn };
+  const logOut = () => {
+    const confirm = window.confirm("Deseja realmente sair?");
+    if (!confirm) return;
+    setUser(null);
+    backToHomePage();
+  };
+
+  return { user, credentials, handleCredentials, logIn, logOut };
 };

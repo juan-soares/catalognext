@@ -1,10 +1,10 @@
 "use client";
 
-import { useAuth } from "@/_hooks/useAuth";
 import Link from "next/link";
+import { useAuth } from "@/_hooks/useAuth";
 
 export default function Loginbar() {
-  const { user } = useAuth();
+  const { user, logOut } = useAuth();
 
   if (!user) {
     return (
@@ -19,7 +19,7 @@ export default function Loginbar() {
       <div>
         <img src={avatar} alt={"Avatar do usuário" + nickname} />
         <span>{nickname}</span>
-        <button>Sair</button>
+        <button onClick={logOut}>Sair</button>
       </div>
     );
   }
