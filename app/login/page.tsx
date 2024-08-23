@@ -1,8 +1,6 @@
-import { useAuth } from "@/_hooks/useAuth";
+import { logIn } from "@/_utils/actions";
 
 export default function Login() {
-  const { logIn } = useAuth();
-
   return (
     <div>
       <form action={logIn}>
