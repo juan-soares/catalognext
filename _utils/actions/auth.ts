@@ -1,58 +1,42 @@
+"use server";
+
+import { IUser } from "@/_interfaces";
+import { accessDatabase } from "@/_lib/database";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { generateToken } from "@/_lib/jwt";
+import { createCookies } from "../test";
 
 export async function logIn(formData: FormData) {
-  "use server";
-
   const credentials = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
   };
 
   if (!credentials.email || !credentials.password) {
-    console.log("Usuário ou senha em branco.");
+    throw new Error("Usuário ou senha em branco.");
   }
 
-  try {
-    const res = await fetch("/api/auth", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(credentials),
-    });
+  const users = (await accessDatabase("users")) as IUser[];
+  const userInfo = users.find(
+    ({ email, password }) =>
+      email === credentials.email && password === credentials.password
+  );
 
-    const data = await res.json();
+  if (!userInfo) throw new Error("Usuário não encontrado");
 
-    console.log(data);
+  createCookies(userInfo.avatar);
 
-    if (res.status !== 200) {
-      console.log(data.errorMessage);
-      return;
-    }
-
-    const token = generateToken(data.userInfo);
-
-    cookies().set("session", token, {
-      httpOnly: true,
-      secure: true,
-      expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-      sameSite: "lax",
-      path: "/",
-    });
-
-    console.log("Sucesso!");
-  } catch (error) {
-    console.log(error);
-  }
-
-  redirect("/");
+  console.log("Sucesso");
 }
 
 export async function logOut() {
-  const cookieStore = cookies();
-  cookieStore.delete("session");
-
-  console.log("Deslogado com sucesso!");
+  try {
+    cookies().delete("session");
+    console.log("Deslogado com sucesso!");
+  } catch (error) {
+    console.error("Falha: " + (error as Error).message);
+    throw new Error((error as Error).message); // Lançar o erro para ser tratado pela UI
+  }
 
   redirect("/");
 }

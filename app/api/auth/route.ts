@@ -2,9 +2,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { loginPost, loginDelete } from "@/_services/auth";
 
 export async function POST(req: NextRequest, res: NextResponse) {
-  const { credentials } = await req.json();
+  const { email, password } = await req.json();
 
-  if (!credentials.email || !credentials.password) {
+  if (!email || !password) {
     console.error("Erro em /auth ao POST: Credenciais não fornecidas.");
     return NextResponse.json(
       { error: "Credenciais não fornecidas." },
@@ -13,12 +13,11 @@ export async function POST(req: NextRequest, res: NextResponse) {
   }
 
   try {
-    const session = await loginPost(credentials);
+    const userInfo = await loginPost(email, password);
     console.log("Sucesso ao realizar o login!");
-    console.log(session);
 
     return NextResponse.json(
-      { message: "Sucesso ao realizar o login!" },
+      { data: userInfo, message: "Sucesso ao realizar o login!" },
       { status: 200 }
     );
   } catch (error) {
