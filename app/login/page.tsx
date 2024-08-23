@@ -5,7 +5,7 @@ export default function Login() {
 
   return (
     <div>
-      <form onSubmit={logIn}>
+      <form action={logIn}>
         <label htmlFor="email">Usuário: </label>
         <input type="email" name="email" placeholder="E-mail" required />
         <label htmlFor="password">Senha: </label>

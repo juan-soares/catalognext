@@ -1,10 +1,7 @@
 import Link from "next/link";
-import { useAuth } from "@/_hooks/useAuth";
 
-export default async function Loginbar() {
-  const { validateUserSession, logOut } = useAuth();
-
-  const user = validateUserSession();
+export default function Loginbar() {
+  const user = null;
 
   if (!user) {
     return (
@@ -19,7 +16,7 @@ export default async function Loginbar() {
       <div>
         <img src={avatar} alt={"Avatar do usuário" + nickname} />
         <span>{nickname}</span>
-        <button onClick={logOut}>Sair</button>
+        <button>Sair</button>
       </div>
     );
   }
