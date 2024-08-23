@@ -1,18 +1,23 @@
+import { ICredentials, IUser } from "@/_interfaces";
 import { accessDatabase } from "@/_lib/database";
 import { generateToken } from "@/_lib/jwt";
 
-export async function loginPost(reqEmail: string, reqPassword: string) {
-  const { users } = await accessDatabase();
+export async function loginPost(credentials: ICredentials): Promise<string> {
+  try {
+    const users = (await accessDatabase("users")) as IUser[];
+    const user = users.find(
+      ({ email, password }) =>
+        email === credentials.email && password === credentials.password
+    );
+    if (!user) throw new Error("Usuário ou senha não encontrados.");
 
-  const user = users.find(
-    ({ email, password }) => email === reqEmail && password === reqPassword
-  );
+    const { avatar, nickname } = user;
 
-  if (!user) throw new Error("Usuário ou senha inválidos.");
+    const token = generateToken({ avatar, nickname });
 
-  const { id, email, password, ...userInfo } = user;
-
-  const token = generateToken(userInfo);
-
-  return token;
+    return token;
+  } catch (error) {
+    console.error("Erro em loginPost: " + error);
+    return "";
+  }
 }
