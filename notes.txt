@@ -1,0 +1,8 @@
+Authentication
+- (Client) Capturar as credenciais do usuário, em um formulário e enviar para o servidor.
+- (Server) Validar os campos preenchidos,
+- (Client) Bloquear o botão de Envio, quando a informação é processada,
+- (Server) Informar em caso de erro,
+- (Client) Informar em caso de erro,
+- (Server) Verificar se o usuário existe no banco de dados,
+- (Server) Informar em caso de erro,

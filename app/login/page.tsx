@@ -6,7 +6,7 @@ import { login } from "@/src/actions/login";
 
 export default function Login() {
   const redirect = useRouter();
-  const [submitMessage, formAction] = useFormState(login, "");
+  const [submitMessage, formAction, pending] = useFormState(login, "");
 
   return (
     <div>
@@ -17,7 +17,7 @@ export default function Login() {
         <label htmlFor="password">Senha: </label>
         <input type="password" name="password" required />
         <p>{submitMessage}</p>
-        <button>Enviar</button>
+        <button disabled={pending}>Enviar</button>
         <button onClick={() => redirect.push("/")}>Voltar</button>
       </form>
     </div>
